@@ -20,11 +20,12 @@ class View:
         print("2. Показать все заметки")
         print("3. Добавить новую заметку")
         print("4. Показать/редактировать заметку по id:")
-        print("5. Сохранить изменения в файл")
-        print("6. Выйти")
+        print("5. Показать все заметки на дату")
+        print("6. Сохранить изменения в файл")
+        print("7. Выйти")
         print()
         num = 0
-        while num < 1 or num > 6:
+        while num < 1 or num > 7:
             option = input("Введите номер нужного пункта: ")
             if option.isnumeric():
                 num = int(option)
@@ -34,11 +35,13 @@ class View:
             self.showAllNotes()
         if num == 3:
             self.addNewNote()
-        if num == 4:
+        if num == 4:   
             self.chooseNoteById()
         if num == 5:
-            self.saveChanges()
+            self.showForDate()
         if num == 6:
+            self.saveChanges()
+        if num == 7:
             self.finish()
 
     def loadPreviousSaved(self):
@@ -88,7 +91,15 @@ class View:
                 stillEditing = False
             if option == 4:
                 stillEditing = False
-        self.mainMenu()    
+        self.mainMenu()   
+
+    def showForDate(self):
+        date = input("Введите дату в формате MM/dd/yyy: ")
+        date = datetime.strptime(date, "%m/%d/%Y")
+        for key, value in self.notesManager.findAllNotesFordate(date).items():
+            self.printNote(value)
+        print()    
+        self.mainMenu()   
 
     def saveChanges(self):
         self.notesManager.save()

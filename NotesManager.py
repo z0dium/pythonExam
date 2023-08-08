@@ -28,6 +28,13 @@ class NotesManager:
         note.lastModified = datetime.now()
         self.notes.update({note.id:note})
 
+    def findAllNotesFordate(self, date):
+        result = {}
+        for element in self.notes.values():
+            if datetime.date(element.lastModified) == datetime.date(date):
+                result.update({f'{element.id}':element})
+        return result 
+
     def load(self):
         self.notes = DataStoreManager.DataStoremanager.loadData()
     
